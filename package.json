@@ -1,0 +1,93 @@
+{
+  "name": "ion-cli",
+  "version": "0.1.0",
+  "description": "convennient tool",
+  "homepage": "https://github.com/tungpin/pack",
+  "url": "https://github.com/tungpin/pack/issues",
+  "email": "dengjscn@gmail.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tungpin/pack"
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "test": "jest",
+    "eslint": "eslint src --ext .ts --config .eslint.js",
+    "eslint:fix": "eslint src --ext .ts --fix --config .eslint.js"
+  },
+  "keywords": [
+    "react",
+    "cli",
+    "webpack"
+  ],
+  "author": "tungpin",
+  "license": "MIT",
+  "bin": {
+    "ion": "./bin/ion"
+  },
+  "engines": {
+    "node": ">=7.6.0"
+  },
+  "dependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "@babel/plugin-proposal-decorators": "^7.2.3",
+    "@babel/plugin-proposal-export-default-from": "^7.2.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.2.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-property-literals": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.2.0",
+    "@babel/plugin-transform-spread": "^7.2.2",
+    "@babel/plugin-transform-template-literals": "^7.2.0",
+    "@babel/polyfill": "^7.2.5",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.2.0",
+    "@types/node": "^10.12.18",
+    "autoprefixer": "^9.4.4",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-import": "^1.11.0",
+    "babel-plugin-react-transform": "^3.0.0",
+    "body-parser": "^1.18.3",
+    "chalk": "^2.4.2",
+    "clean-webpack-plugin": "^1.0.0",
+    "commander": "^2.19.0",
+    "copy-webpack-plugin": "^4.6.0",
+    "css-loader": "^2.1.0",
+    "debug": "^4.1.1",
+    "friendly-errors-webpack-plugin": "^1.7.0",
+    "happypack": "^5.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "jest": "^23.6.0",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
+    "mini-css-extract-plugin": "^0.5.0",
+    "mockjs": "^1.0.1-beta3",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "postcss-loader": "^3.0.0",
+    "postcss-px2rem": "^0.3.0",
+    "react-dev-utils": "^7.0.1",
+    "react-hot-loader": "^4.6.5",
+    "rucksack-css": "^1.0.2",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^0.23.1",
+    "uglifyjs-webpack-plugin": "^2.1.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.28.1",
+    "webpack-dev-server": "^3.1.14",
+    "webpack-merge": "^4.2.1",
+    "webpackbar": "^3.1.4"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.13.0",
+    "eslint-config-alloy": "^1.4.2",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-typescript": "^0.14.0",
+    "prettier": "^1.16.4",
+    "typescript": "^3.2.1",
+    "typescript-eslint-parser": "^22.0.0"
+  }
+}

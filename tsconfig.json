@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "outDir": "lib/",
+    "rootDir": "./src/",
+    "removeComments": true,
+    "strictNullChecks": true,
+    "noImplicitAny": false,
+    "strict": true,
+    "noImplicitThis": false,
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "lib": ["es2015"]
+  },
+  "compileOnSave": true,
+  "include": ["./src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

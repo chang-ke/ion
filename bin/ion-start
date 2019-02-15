@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+
+const program = require('commander');
+const Ion = require('../lib');
+
+program
+  .option('-c, --config <path>', 'set config path. defaults to ./ion.config.js')
+  .option('-p, --port <number>', 'set config port. defaults to 8080')
+  .parse(process.argv);
+
+Ion.start(program);
