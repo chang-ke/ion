@@ -30,7 +30,7 @@ import(/*webpackChunkName: 'publish'*/ './component/publish').then(module => {
 
 | 配置项       | 类型                | 默认值           | 说明                         |
 | ------------ | ------------------- | ---------------- | ---------------------------- |
-| `entry`      | `string | string[]` | `./src/index.js` | 程序入口                     |
+| `entry`      | `string \| string[]` | `./src/index.js` | 程序入口                     |
 | `publicPath` | `string`            | `/`              | 资源请求根路径               |
 | `port`       | `number`            | `8080`           | 应用启动端口                 |
 | `proxy`      | `object`            | `{}`             | 代理配置 (同 webpack)        |
@@ -38,7 +38,7 @@ import(/*webpackChunkName: 'publish'*/ './component/publish').then(module => {
 | `externals`  | `object`            | `{}`             | 外部扩展(同 webpack)         |
 | `dll`        | `string[]`          | `false`          | 需要打包成 dll 的类库        |
 | `hash`       | `number`            | `8`              | 文件 hash 长度               |
-| `cssModule`  | `false | string`    | `false`          | 启用 cssModule               |
+| `cssModule`  | `false \| string`    | `false`          | 启用 cssModule               |
 | `sourceMap`  | `boolean`           | `false`          | 打包时是否生成 souceMap 文件 |
 | `babel`      | `object`            | `{}`             | babel 配置 (同.babelrc)      |
 | `postcss`    | `object`            | `{}`             | postcss 配置                 |

@@ -2,18 +2,12 @@
   "name": "ion-cli",
   "version": "0.1.0",
   "description": "convennient tool",
-  "homepage": "https://github.com/tungpin/pack",
-  "url": "https://github.com/tungpin/pack/issues",
   "email": "dengjscn@gmail.com",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/tungpin/pack"
-  },
   "scripts": {
     "tsc": "tsc",
     "test": "jest",
-    "eslint": "eslint src --ext .ts --config .eslint.js",
-    "eslint:fix": "eslint src --ext .ts --fix --config .eslint.js"
+    "eslint": "eslint src --ext .ts",
+    "eslint:fix": "eslint src --ext .ts --fix"
   },
   "keywords": [
     "react",
@@ -73,6 +67,7 @@
     "rucksack-css": "^1.0.2",
     "source-map-loader": "^0.2.4",
     "style-loader": "^0.23.1",
+    "ts-jest": "^23.10.5",
     "uglifyjs-webpack-plugin": "^2.1.1",
     "url-loader": "^1.1.2",
     "webpack": "^4.28.1",
