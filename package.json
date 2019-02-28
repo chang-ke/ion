@@ -1,13 +1,13 @@
 {
   "name": "ion-cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "convennient tool",
   "email": "dengjscn@gmail.com",
   "scripts": {
     "tsc": "tsc",
-    "test": "jest",
-    "eslint": "eslint src --ext .ts",
-    "eslint:fix": "eslint src --ext .ts --fix"
+    "test": "cd template && jest --config ../jest.config.js",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix"
   },
   "keywords": [
     "react",
@@ -37,7 +37,9 @@
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
     "@babel/runtime": "^7.2.0",
+    "@types/jest": "^24.0.9",
     "@types/node": "^10.12.18",
     "autoprefixer": "^9.4.4",
     "awesome-typescript-loader": "^5.2.1",
@@ -68,6 +70,9 @@
     "source-map-loader": "^0.2.4",
     "style-loader": "^0.23.1",
     "ts-jest": "^23.10.5",
+    "ts-loader": "^5.3.3",
+    "typed-css-modules-loader": "^0.0.17",
+    "typings-for-css-modules-loader": "^1.7.0",
     "uglifyjs-webpack-plugin": "^2.1.1",
     "url-loader": "^1.1.2",
     "webpack": "^4.28.1",

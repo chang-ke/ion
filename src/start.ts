@@ -9,6 +9,7 @@ import merge from './util/merge';
 import resolveConfig from './util/resolveConfig';
 import getWebpackConfig from './config/getWebpackConfig';
 import getDevServerConfig from './config/getDevServerConfig';
+import { resolve } from './util/helper';
 
 export default function start(program: CommanderStatic) {
   process.env.HOST = 'localhost';
@@ -33,16 +34,13 @@ export default function start(program: CommanderStatic) {
         },
       },
     },
-    // plugins: [
-    //   new webpack.HotModuleReplacementPlugin({
-    //     multiStep: true, // 开启多通道编译，获得更好的性能, 但是会引起html-webpack-plugin出错，see: https://github.com/jantimon/html-webpack-plugin/issues/716
-    //   }),
-    // ],
+    plugins: [
+      new webpack.HotModuleReplacementPlugin({
+        // multiStep: true, // 开启多通道编译，获得更好的性能, 但是会引起html-webpack-plugin出错，see: https://github.com/jantimon/html-webpack-plugin/issues/716
+      }),
+    ],
   });
   const port = userConfig.port || program.port || 8080;
-  (webpackConfig.entry as any).app.unshift(
-    `webpack-dev-server/client?http://localhost:${port}`
-  );
 
   debug(webpackConfig);
   const compiler = webpack(webpackConfig);
@@ -51,6 +49,10 @@ export default function start(program: CommanderStatic) {
     if (port === null) {
       return;
     }
+    webpackConfig.entry.app.unshift(
+      resolve(`webpack-dev-server/client`) + `?http://localhost:${port}`
+    );
+    WebpackDevServer.addDevServerEntrypoints(webpackConfig, serverConfig);
     new WebpackDevServer(compiler, serverConfig).listen(port, HOST, err => {
       if (err) {
         throw err;

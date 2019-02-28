@@ -10,7 +10,7 @@
     "strict": true,
     "noImplicitThis": false,
     "esModuleInterop": true,
-    "downlevelIteration": true,
+    "types": ["node", "jest"],
     "lib": ["es2015"]
   },
   "compileOnSave": true,

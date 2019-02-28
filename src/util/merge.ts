@@ -2,14 +2,21 @@ import webpackMerge from 'webpack-merge';
 //import { isAbsolute, resolve } from 'path';
 import {
   WebpackOptions,
+  Entry,
   //OutputOptions,
 } from 'webpack/declarations/WebpackOptions';
 
 //import { isString, isObject, isArray } from './type';
 
-function merge(defaultConfig: WebpackOptions, otherConfig: WebpackOptions) {
+export interface Options extends WebpackOptions {
+  entry: Entry & {
+    app: string[];
+  };
+}
+
+function merge(defaultConfig: Options, otherConfig: WebpackOptions) {
   //const cwdPath = process.cwd();
-  const config: WebpackOptions = webpackMerge(defaultConfig, otherConfig);
+  const config: Options = webpackMerge(defaultConfig, otherConfig);
   //const { entry, output } = config;
 
   // if (isString(entry) && !isAbsolute(entry as string)) {

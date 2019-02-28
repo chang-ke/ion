@@ -4,13 +4,15 @@ import { getMockConfig } from './getMockConfig';
 import { IonConfig } from '../util/resolveConfig';
 
 export default function getDevServerConfig({
+  port,
   proxy = {},
   publicPath = '/',
 }: IonConfig) {
   const cwdPath = process.cwd();
-  const HOST = process.env.HOST || '0.0.0.0';
+  const HOST = process.env.HOST || 'localhost';
+
   return {
-    contentBase: join(cwdPath, './public'),
+    contentBase: join(cwdPath, 'public'),
     publicPath,
     historyApiFallback: true,
     host: HOST,
@@ -18,7 +20,9 @@ export default function getDevServerConfig({
     hot: true,
     hotOnly: true,
     stats: 'errors-only',
+    port,
     proxy,
+    overlay: true,
     before(app) {
       const mockUrls = getMockConfig();
 

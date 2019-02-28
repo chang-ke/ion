@@ -13,7 +13,7 @@ export default function getBabelConfig({ babel = {} }: IonConfig) {
     ],
     resolve('@babel/plugin-transform-spread'),
     resolve('@babel/plugin-transform-template-literals'),
-    resolve('@babel/plugin-proposal-class-properties'),
+    [resolve('@babel/plugin-proposal-class-properties'), { loose: true }],
     resolve('@babel/plugin-proposal-export-default-from'),
     resolve('@babel/plugin-proposal-export-namespace-from'),
     resolve('@babel/plugin-proposal-object-rest-spread'),
@@ -25,12 +25,18 @@ export default function getBabelConfig({ babel = {} }: IonConfig) {
       },
     ],
     resolve('react-hot-loader/babel'),
-    ...(babel && babel.plugins),
   ];
+  if (babel) {
+    if (babel.plugins) {
+      plugins.push(...babel.plugins);
+    }
+  }
   return {
     cacheDirectory: true,
+    babelrc: false,
     presets: [
       resolve('@babel/preset-react'),
+      resolve('@babel/preset-typescript'),
       [
         resolve('@babel/preset-env'),
         {

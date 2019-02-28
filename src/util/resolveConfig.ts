@@ -4,7 +4,9 @@ import { Entry } from 'webpack/declarations/WebpackOptions';
 import chalk from 'chalk';
 
 export interface IonConfig {
-  entry?: Entry;
+  entry?: Entry & {
+    app: string[];
+  };
   publicPath?: string;
   port?: number;
   proxy?: {
@@ -16,9 +18,9 @@ export interface IonConfig {
   externals?: {
     [k: string]: string;
   };
-  lib?: false | string[];
+  lib?: string[];
   hash?: number;
-  cssModule?: false | string;
+  cssModule?: boolean | string;
   sourceMap?: boolean;
   babel?: {
     presets?: string[];
@@ -35,11 +37,13 @@ export interface IonConfig {
   };
 }
 
-export default function resolveConfig(configRelativePath: string): IonConfig {
+export default function resolveConfig(
+  configRelativePath: string = 'ion.config.js'
+): IonConfig {
   const cwdPath = process.cwd();
-  const configPath = resolve(cwdPath, configRelativePath || 'ion.config.js');
+  const configPath = resolve(cwdPath, configRelativePath);
   if (!existsSync(configPath)) {
-    console.warn(chalk.yellow(`${configPath} does not exits`));
+    console.warn(chalk.yellow(`file ${configPath} does not exits`));
   }
   return existsSync(configPath) ? require(configPath) : {};
 }

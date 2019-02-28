@@ -16,7 +16,7 @@ module.exports = {
       2,
       {
         SwitchCase: 1,
-        flatTernaryExpressions: true,
+        flatTernaryExpressions: false,
       },
     ],
     'object-curly-spacing': ['error', 'always'],

@@ -1,17 +1,19 @@
-import webpack from 'webpack';
+import chalk from 'chalk';
 import { join } from 'path';
+import webpack from 'webpack';
+import { isString } from 'util';
 import WebpackBar from 'webpackbar';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import ErrorPlugin from 'friendly-errors-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
+import { Options } from '../util/merge';
 import { resolve } from '../util/helper';
 import getBabelConfig from './getBabelConfig';
 import { IonConfig } from '../util/resolveConfig';
 import getPostcssConfig from './getPostcssConfig';
-import { isString } from '../util/type';
-import chalk from 'chalk';
+import isTs from '../util/isTypescript';
 
 function getCssOptions({ cssModule }: IonConfig) {
   const options: any = {
@@ -34,25 +36,48 @@ function getHash({ hash = 8 }: IonConfig) {
   return hash;
 }
 
-export default function getWebpackConfig(ionConfig: IonConfig) {
+export default function getWebpackConfig(ionConfig: IonConfig): Options {
   const cwdPath = process.cwd();
-
   const hash = getHash(ionConfig);
   const cssOptions = getCssOptions(ionConfig);
   const babelOptions = getBabelConfig(ionConfig);
   const postCssOptions = getPostcssConfig(ionConfig);
 
-  const styleLoader =
-    process.env.NODE_ENV === 'development'
-      ? 'style-loader'
-      : MiniCssExtractPlugin.loader;
-
   const {
     alias = {},
-    entry = { app: './src/index.js' },
+    entry = { app: ['./src/index.js'] },
     publicPath = '/',
   } = ionConfig;
 
+  const styleLoader =
+    process.env.NODE_ENV === 'development'
+      ? resolve('style-loader')
+      : MiniCssExtractPlugin.loader;
+
+  const isTypescript = isTs(entry.app[0]);
+
+  /* eslint-disable */
+  const cssLoader = isTypescript
+    ? [
+        {
+          loader: resolve('css-loader'),
+          options: cssOptions,
+        },
+        {
+          loader: resolve('typed-css-modules-loader'),
+          options: {
+            modules: true,
+            namedExport: true,
+          },
+        },
+      ]
+    : [
+        {
+          loader: resolve('css-loader'),
+          options: cssOptions,
+        },
+      ];
+  /* eslint-disable */
   return {
     context: cwdPath,
     entry,
@@ -72,6 +97,23 @@ export default function getWebpackConfig(ionConfig: IonConfig) {
     module: {
       rules: [
         {
+          test: /\.tsx?$/,
+          exclude: /(node_modules)/,
+          use: [
+            resolve('react-hot-loader/webpack'),
+            {
+              loader: resolve('babel-loader'),
+              options: babelOptions,
+            },
+            resolve('ts-loader'),
+          ],
+        },
+        {
+          test: /\.tsx?$/,
+          enforce: 'pre',
+          loader: resolve('source-map-loader'),
+        },
+        {
           test: /\.jsx?$/,
           exclude: /(node_modules)/,
           loader: resolve('babel-loader'),
@@ -81,14 +123,9 @@ export default function getWebpackConfig(ionConfig: IonConfig) {
           test: /\.css$/,
           use: [
             styleLoader,
+            ...cssLoader,
             {
-              loader: resolve('css-loader'),
-              options: {
-                importLoaders: 1,
-              },
-            },
-            {
-              loader: 'postcss-loader',
+              loader: resolve('postcss-loader'),
               options: postCssOptions,
             },
           ],
@@ -97,9 +134,10 @@ export default function getWebpackConfig(ionConfig: IonConfig) {
           test: /\.less$/,
           use: [
             styleLoader,
+            ...cssLoader,
             {
-              loader: resolve('css-loader'),
-              options: cssOptions,
+              loader: resolve('postcss-loader'),
+              options: postCssOptions,
             },
             {
               loader: resolve('less-loader'),
@@ -107,10 +145,6 @@ export default function getWebpackConfig(ionConfig: IonConfig) {
                 sourceMap: true,
                 javascriptEnabled: true,
               },
-            },
-            {
-              loader: 'postcss-loader',
-              options: postCssOptions,
             },
           ],
           exclude: /node_modules/,
@@ -120,11 +154,8 @@ export default function getWebpackConfig(ionConfig: IonConfig) {
           use: [
             styleLoader,
             {
-              loader: resolve('css-loader'),
-              options: {
-                sourceMap: true,
-                importLoaders: 1,
-              },
+              loader: resolve('postcss-loader'),
+              options: postCssOptions,
             },
             {
               loader: resolve('less-loader'),
@@ -132,10 +163,6 @@ export default function getWebpackConfig(ionConfig: IonConfig) {
                 sourceMap: true,
                 javascriptEnabled: true,
               },
-            },
-            {
-              loader: 'postcss-loader',
-              options: postCssOptions,
             },
           ],
           exclude: /src/,
