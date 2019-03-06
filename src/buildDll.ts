@@ -5,9 +5,9 @@ import resolveConfig from './util/resolveConfig';
 import chalk from 'chalk';
 
 export default function buildDll(program: CommanderStatic) {
-  const { lib } = resolveConfig(program.config);
-  if (lib) {
-    const config = getDllConfig(lib);
+  const { dllEntry } = resolveConfig(program.config);
+  if (dllEntry) {
+    const config = getDllConfig(dllEntry);
     webpack(config, function(err, stats) {
       if (err) {
         console.log(chalk.red(err));
@@ -27,7 +27,7 @@ export default function buildDll(program: CommanderStatic) {
   } else {
     console.log(
       chalk.yellow(
-        'You may not configure lib proptry, check you configuration file'
+        'You may not configure lib property, check you configuration file'
       )
     );
   }

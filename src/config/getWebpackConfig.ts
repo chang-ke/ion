@@ -4,7 +4,6 @@ import webpack from 'webpack';
 import { isString } from 'util';
 import WebpackBar from 'webpackbar';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
 import ErrorPlugin from 'friendly-errors-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
@@ -129,6 +128,12 @@ export default function getWebpackConfig(ionConfig: IonConfig): Options {
               options: postCssOptions,
             },
           ],
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.css$/,
+          use: [styleLoader, resolve('css-loader')],
+          exclude: /src/,
         },
         {
           test: /\.less$/,
@@ -153,10 +158,7 @@ export default function getWebpackConfig(ionConfig: IonConfig): Options {
           test: /\.less$/,
           use: [
             styleLoader,
-            {
-              loader: resolve('postcss-loader'),
-              options: postCssOptions,
-            },
+            resolve('css-loader'),
             {
               loader: resolve('less-loader'),
               options: {
@@ -172,6 +174,7 @@ export default function getWebpackConfig(ionConfig: IonConfig): Options {
     plugins: [
       new MiniCssExtractPlugin({
         filename: `main.[contenthash:${hash}].css`,
+        chunkFilename: `[id].[contenthash:${hash}].css`
       }),
       // 防止每次文件hash都改变
       new webpack.HashedModuleIdsPlugin(),
@@ -191,7 +194,6 @@ export default function getWebpackConfig(ionConfig: IonConfig): Options {
         },
         template: join(cwdPath, './public/index.html'),
       }),
-      new CleanWebpackPlugin(join(cwdPath, 'dist')),
     ],
   };
 }

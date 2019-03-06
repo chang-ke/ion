@@ -18,7 +18,8 @@ export interface IonConfig {
   externals?: {
     [k: string]: string;
   };
-  lib?: string[];
+  analyze?: boolean;
+  dllEntry?: string[];
   hash?: number;
   cssModule?: boolean | string;
   sourceMap?: boolean;

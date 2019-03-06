@@ -4,6 +4,9 @@ import webpack from 'webpack';
 import HappyPack from 'happypack';
 import { CommanderStatic } from 'commander';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import CleanWebpackPlugin from 'clean-webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 
 import merge from './util/merge';
@@ -58,12 +61,6 @@ export default function build(program: CommanderStatic) {
         // 使用共享进程池中的子进程去处理任务
         threadPool: happyThreadPool,
       }),
-      new OptimizeCssAssetsPlugin({
-        assetNameRegExp: /\.css$/g,
-        cssProcessor: require('cssnano'),
-        cssProcessorOptions: { discardComments: { removeAll: true } },
-        canPrint: true,
-      }),
       new CopyWebpackPlugin([
         {
           from: join(cwdPath, 'public'),
@@ -71,6 +68,9 @@ export default function build(program: CommanderStatic) {
         },
       ]),
       new webpack.NamedModulesPlugin(),
+      new CleanWebpackPlugin(['dist'], {
+        root: cwdPath,
+      }),
     ],
     optimization: {
       splitChunks: {
@@ -90,9 +90,23 @@ export default function build(program: CommanderStatic) {
             name: 'vendors',
             test: /[\\/]node_modules[\\/]/,
             priority: -10,
+            reuseExistingChunk: true
           },
         },
       },
+      minimizer: [
+        new UglifyJsPlugin({
+          cache: true,
+          parallel: true,
+          sourceMap: userConfig.sourceMap, // set to true if you want JS source maps
+        }),
+        new OptimizeCssAssetsPlugin({
+          assetNameRegExp: /\.css$/g,
+          cssProcessor: require('cssnano'),
+          cssProcessorOptions: { discardComments: { removeAll: true } },
+          canPrint: true,
+        }),
+      ],
       runtimeChunk: true,
       namedModules: true,
       namedChunks: true,
@@ -102,8 +116,11 @@ export default function build(program: CommanderStatic) {
   if (userConfig.sourceMap) {
     webpackConfig.devtool = 'source-map';
   }
+  if (userConfig.analyze && webpackConfig.plugins) {
+    webpackConfig.plugins.push(new BundleAnalyzerPlugin());
+  }
 
-  webpack(webpackConfig).run((err, stats) => {
+  webpack(webpackConfig).run((err, /*stats*/) => {
     if (err) {
       console.log(chalk.red(err));
       return;

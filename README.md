@@ -6,21 +6,21 @@
 
 其它命令行配置 见 `ion --help`
 
-**ion** 提供以下四种功能：
+### ion 提供以下四种功能：
 
-**start**
+### start
 
 启动服务
 
-**build**
+### build
 
 打包项目，打包项目前先使用 buildDll 命令生成 Dll
 
-**buildDll**
+### buildDll
 
 打包 dll 文件，加快打包和应用启动速度
 
-**test**（实现中）
+### test（实现中）
 
 对项目进行单元测试
 
@@ -40,7 +40,8 @@ import(/*webpackChunkName: 'publish'*/ './component/publish').then(module => {
 | `proxy`      | `object`          | `{}`             | 代理配置 (同 webpack)        |
 | `alias`      | `object`          | `{}`             | 别名 (同 webpack)            |
 | `externals`  | `object`          | `{}`             | 外部扩展(同 webpack)         |
-| `dll`        | `string[]`        | `false`          | 需要打包成 dll 的类库        |
+| `analyze`    | `boolean`         | `false`          | 是否启用依赖分析             |
+| `dllEntry`   | `string[]`        | `false`          | 需要打包成 dll 的类库        |
 | `hash`       | `number`          | `8`              | 文件 hash 长度               |
 | `cssModule`  | `false \| string` | `false`          | 启用 cssModule               |
 | `sourceMap`  | `boolean`         | `false`          | 打包时是否生成 souceMap 文件 |
@@ -65,7 +66,8 @@ export interface IonConfig {
   externals?: {
     [k: string]: string;
   };
-  lib?: string[];
+  analyze?: boolean;
+  dllEntry?: string[];
   hash?: number;
   cssModule?: boolean | string;
   sourceMap?: boolean;
