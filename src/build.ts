@@ -32,20 +32,8 @@ export default function build(program: CommanderStatic) {
           test: /\.jsx?$/,
           include: [join(cwdPath, 'src')],
           // 把对 .js 文件的处理转交给 id 为 babel 的 HappyPack 实例
-          use: 'happypack/loader?id=babel',
-        },
-        {
-          test: /\.(png|svg|jpg|gif)$/,
-          use: [
-            {
-              loader: 'url-loader',
-              options: {
-                limit: 8192,
-                outputPath: join(cwdPath, 'dist/images'),
-              },
-            },
-          ],
-        },
+          use: resolve('happypack/loader') + '?id=babel',
+        }
       ],
     },
     plugins: [
@@ -90,7 +78,7 @@ export default function build(program: CommanderStatic) {
             name: 'vendors',
             test: /[\\/]node_modules[\\/]/,
             priority: -10,
-            reuseExistingChunk: true
+            reuseExistingChunk: true,
           },
         },
       },
@@ -120,7 +108,7 @@ export default function build(program: CommanderStatic) {
     webpackConfig.plugins.push(new BundleAnalyzerPlugin());
   }
 
-  webpack(webpackConfig).run((err, /*stats*/) => {
+  webpack(webpackConfig).run((err /*stats*/) => {
     if (err) {
       console.log(chalk.red(err));
       return;

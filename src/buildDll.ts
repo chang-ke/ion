@@ -27,7 +27,7 @@ export default function buildDll(program: CommanderStatic) {
   } else {
     console.log(
       chalk.yellow(
-        'You may not configure lib property, check you configuration file'
+        'You may not configure dllEntry property, check you configuration file'
       )
     );
   }

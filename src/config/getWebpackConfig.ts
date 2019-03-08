@@ -85,13 +85,17 @@ export default function getWebpackConfig(ionConfig: IonConfig): Options {
       filename: `js/[name].[hash:${hash}].js`,
       publicPath,
       chunkFilename: `js/[name].[chunkhash:${hash}].async.js`,
-      hotUpdateChunkFilename: 'hot/hot-update.js',
-      hotUpdateMainFilename: 'hot/hot-update.json',
+      hotUpdateChunkFilename: 'hot/[hash:8].hot-update.js',
+      hotUpdateMainFilename: 'hot/[hash:8].hot-update.json',
     },
     resolve: {
-      // modules: ['node_modules', join(cwdPath, './node_modules')],
+      modules: ['node_modules', join(cwdPath, './node_modules')],
       extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
-      alias,
+      alias: {
+        'react-hot-loader': resolve('react-hot-loader'),
+        'react-dom': resolve('@hot-loader/react-dom'),
+        ...alias,
+      },
     },
     module: {
       rules: [
@@ -115,8 +119,13 @@ export default function getWebpackConfig(ionConfig: IonConfig): Options {
         {
           test: /\.jsx?$/,
           exclude: /(node_modules)/,
-          loader: resolve('babel-loader'),
-          options: babelOptions,
+          use: [
+            resolve('react-hot-loader/webpack'),
+            {
+              loader: resolve('babel-loader'),
+              options: babelOptions,
+            },
+          ],
         },
         {
           test: /\.css$/,
@@ -169,12 +178,24 @@ export default function getWebpackConfig(ionConfig: IonConfig): Options {
           ],
           exclude: /src/,
         },
+        {
+          test: /\.(png|svg|jpg|gif)$/,
+          use: [
+            {
+              loader: resolve('url-loader'),
+              options: {
+                limit: 8192,
+                outputPath: join(cwdPath, 'dist/images'),
+              },
+            },
+          ],
+        }
       ],
     },
     plugins: [
       new MiniCssExtractPlugin({
         filename: `main.[contenthash:${hash}].css`,
-        chunkFilename: `[id].[contenthash:${hash}].css`
+        chunkFilename: `[id].[contenthash:${hash}].css`,
       }),
       // 防止每次文件hash都改变
       new webpack.HashedModuleIdsPlugin(),

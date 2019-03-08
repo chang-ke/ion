@@ -89,4 +89,6 @@ export interface IonConfig {
 
 ## ChangeLog
 
-- v0.2.0 增加对 typescript 的支持
+- v0.2.0 增加对 TypeScript 的支持
+
+- v0.3.0 增加对 React HMR 的支持
