@@ -1,6 +1,16 @@
-## Usage
+# ion
 
-**ion** 是对`webpack`常用功能的封装，并约定了一些默认配置
+**ion** 是基于`webpack`封装的开发工具，并约定了一些默认配置
+
+## Features
+
+- 开箱即用
+
+- 超快的启动和打包速度，支持dll
+
+- 内置支持 React HMR，less，typescript，cssModule，px to rem
+
+## Usage
 
 配置文件默认约定为项目根目录的`ion.config.js`, 你也可以使用-c 指定配置文件，但文件导出的必须是对象
 
@@ -8,21 +18,19 @@
 
 ### ion 提供以下四种功能：
 
-### start
+```bash
+# 启动服务
+$ ion start
 
-启动服务
+# 打包 dll 文件，加快打包和应用启动速度
+$ ion buildDll
 
-### build
+# 打包项目，打包项目前先使用 buildDll 命令生成 Dll
+$ ion build
 
-打包项目，打包项目前先使用 buildDll 命令生成 Dll
-
-### buildDll
-
-打包 dll 文件，加快打包和应用启动速度
-
-### test（实现中）
-
-对项目进行单元测试
+# 对项目进行单元测试，实现中
+$ ion test
+```
 
 _Note_: 如果你有使用 import()进行异步加载模块，请按如下示例使用，给每个异步模块加上名字可以确保模块 hash 稳定
 

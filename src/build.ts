@@ -33,7 +33,7 @@ export default function build(program: CommanderStatic) {
           include: [join(cwdPath, 'src')],
           // 把对 .js 文件的处理转交给 id 为 babel 的 HappyPack 实例
           use: resolve('happypack/loader') + '?id=babel',
-        }
+        },
       ],
     },
     plugins: [
@@ -72,6 +72,7 @@ export default function build(program: CommanderStatic) {
           commons: {
             name: 'commons',
             chunks: 'initial',
+            minSize: 0,
             minChunks: 2, // 两个以上地方用到才打包到commons
           },
           vendors: {
