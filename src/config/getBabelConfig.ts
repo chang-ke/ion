@@ -24,9 +24,12 @@ export default function getBabelConfig({ babel = {} }: IonConfig) {
         decoratorsBeforeExport: true,
       },
     ],
-    resolve('../ion-hmr'),
-    resolve('react-hot-loader/babel'),
   ];
+  if (process.env.NODE_ENV === 'development') {
+    plugins.push(resolve('../ion-hmr'), resolve('react-hot-loader/babel'));
+  } else {
+    plugins.push(resolve('react-hot-loader/babel'));
+  }
   if (babel) {
     if (babel.plugins) {
       plugins.push(...babel.plugins);

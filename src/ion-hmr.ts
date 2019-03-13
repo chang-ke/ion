@@ -20,6 +20,11 @@ module.exports = function({ types: t }) {
         if (
           !path.container.find(
             node => t.isImportDeclaration(node) && node.source.value === 'react'
+          ) ||
+          path.container.find(
+            node =>
+              t.isImportDeclaration(node) &&
+              node.source.value === 'react-hot-loader'
           )
         ) {
           return;

@@ -22,7 +22,6 @@ export default function getDevServerConfig({
     stats: 'errors-only',
     port,
     proxy,
-    overlay: true,
     before(app) {
       const mockUrls = getMockConfig();
 
