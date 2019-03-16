@@ -4,7 +4,7 @@ import webpack from 'webpack';
 import HappyPack from 'happypack';
 import { CommanderStatic } from 'commander';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
@@ -39,7 +39,6 @@ export default function build(program: CommanderStatic) {
     plugins: [
       new HappyPack({
         id: 'babel',
-        // 如何处理 .js 文件，用法和 Loader 配置中一样
         loaders: [
           {
             loader: resolve('babel-loader'),
@@ -84,7 +83,7 @@ export default function build(program: CommanderStatic) {
         },
       },
       minimizer: [
-        new UglifyJsPlugin({
+        new TerserPlugin({ // reference: https://github.com/facebook/react/issues/14014
           cache: true,
           parallel: true,
           sourceMap: userConfig.sourceMap, // set to true if you want JS source maps
