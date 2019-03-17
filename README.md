@@ -4,11 +4,13 @@
 
 ## Features
 
-- 开箱即用
+- 📦 开箱即用
 
-- 超快的启动和打包速度，支持dll
+- 🐛 支持错误提示(支持编译期和运行期错误)
 
-- 内置支持 React HMR，less，typescript，cssModule，px to rem
+- 🚀 超快的启动和打包速度，支持`dll`
+
+- 📌 内置支持 `React HMR`, `Less`, `TypeScript`, `CSS Module`, `px to rem`, `mock`
 
 ## Usage
 
