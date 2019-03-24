@@ -9,7 +9,7 @@ program
   .command('start [options]', 'to start a server')
   .command('build [options]', 'to build and write static files to `config.output`')
   .command('buildDll [options]', 'to build and write dll files to `config.output`')
-  .command('test [options]', 'to test a server')
+  .command('create <name> [options]', 'to create a project')
   .parse(process.argv);
 
 process.on('SIGINT', function() {

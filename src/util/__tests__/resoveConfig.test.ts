@@ -10,16 +10,10 @@ describe('test resolve user config file', () => {
       entry: {
         app: ['./src/index.js'],
       },
-      lib: ['react', 'react-dom', 'react-router-dom', 'mobx', 'mobx-react'],
+      dllEntry: ['react', 'react-dom'],
       cssModule: true,
-      babel: {
-        plugins: [
-          [
-            'import',
-            { libraryName: 'antd', libraryDirectory: 'es', style: 'css' },
-          ],
-        ],
-      },
+      sourceMap: true,
+      babel: {},
       postcss: {
         autoprefixer: {
           browsers: ['iOS >= 8', 'Android >= 4'],
@@ -31,6 +25,7 @@ describe('test resolve user config file', () => {
         to: './dist',
       },
     };
+
     expect(resolveConfig('./ion.config.js')).toStrictEqual(config);
     expect(resolveConfig()).toStrictEqual(config);
   });

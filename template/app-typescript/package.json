@@ -1,0 +1,33 @@
+{
+  "name": "ion-starter",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.7.0",
+    "react-dom": "^16.4.2",
+    "react-redux": "^6.0.1",
+    "react-router-dom": "^4.4.0",
+    "redux": "^4.0.1"
+  },
+  "scripts": {
+    "lint": "eslint ./src --ext .ts",
+    "lint:fix": "eslint ./src --ext .ts --fix",
+    "start": "ion start"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "devDependencies": {
+    "@types/react-dom": "^16.8.2",
+    "@types/react-redux": "^7.0.3",
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-import": "^1.11.0",
+    "eslint": "^5.15.3",
+    "eslint-config-alloy": "^1.4.2",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "prettier": "^1.16.4",
+    "typescript": "^3.2.1",
+    "typescript-eslint-parser": "^22.0.0"
+  }
+}

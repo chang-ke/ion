@@ -16,7 +16,7 @@ module.exports = {
   testPathIgnorePatterns: ['/node_modules/'],
   globals: {
     'ts-jest': {
-      tsConfig: '../tsconfig.json',  // 此处是根据命令行路径进行配置
+      tsConfig: '../../tsconfig.json', // 此处是根据命令行路径进行配置
     },
   },
 };

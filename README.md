@@ -10,13 +10,13 @@
 
 - 🚀 超快的启动和打包速度，支持`dll`
 
-- 📌 内置支持 `React HMR`, `Less`, `TypeScript`, `CSS Module`, `px to rem`, `mock`
+- 📌 内置支持 `React HMR`, `Less`, `TypeScript`, `CSS Module`, `PostCSS`, `Mock`
 
 ## Usage
 
 配置文件默认约定为项目根目录的`ion.config.js`, 你也可以使用-c 指定配置文件，但文件导出的必须是对象
 
-其它命令行配置 见 `ion --help`
+其它命令行配置 见 `ion [command] --help`
 
 ### ion 提供以下四种功能：
 
@@ -29,6 +29,10 @@ $ ion buildDll
 
 # 打包项目，打包项目前先使用 buildDll 命令生成 Dll
 $ ion build
+
+# 创建一个项目模板
+
+$ ion create app
 
 # 对项目进行单元测试，实现中
 $ ion test

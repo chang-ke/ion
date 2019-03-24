@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+
+const program = require('commander');
+const Ion = require('../lib');
+
+program
+  .option('-t, --typescript', 'create ion app with typescript')
+  .parse(process.argv);
+
+Ion.create(program);
