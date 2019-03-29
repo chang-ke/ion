@@ -46,6 +46,7 @@ export default function getWebpackConfig(ionConfig: IonConfig): Options {
     alias = {},
     entry = { app: ['./src/index.js'] },
     publicPath = '/',
+    externals = {},
   } = ionConfig;
 
   const styleLoader =
@@ -56,26 +57,27 @@ export default function getWebpackConfig(ionConfig: IonConfig): Options {
   const isTypescript = isTs(entry.app[0]);
 
   /* eslint-disable */
-  const cssLoader = isTypescript
-    ? [
-        {
-          loader: resolve('css-loader'),
-          options: cssOptions,
-        },
-        {
-          loader: resolve('typed-css-modules-loader'),
-          options: {
-            modules: true,
-            namedExport: true,
+  const cssLoader =
+    isTypescript && process.env.NODE_ENV === 'development'
+      ? [
+          {
+            loader: resolve('css-loader'),
+            options: cssOptions,
           },
-        },
-      ]
-    : [
-        {
-          loader: resolve('css-loader'),
-          options: cssOptions,
-        },
-      ];
+          {
+            loader: resolve('typed-css-modules-loader'),
+            options: {
+              modules: true,
+              namedExport: true,
+            },
+          },
+        ]
+      : [
+          {
+            loader: resolve('css-loader'),
+            options: cssOptions,
+          },
+        ];
   /* eslint-disable */
   return {
     context: cwdPath,
@@ -97,6 +99,7 @@ export default function getWebpackConfig(ionConfig: IonConfig): Options {
         ...alias,
       },
     },
+    externals,
     module: {
       rules: [
         {
@@ -179,7 +182,7 @@ export default function getWebpackConfig(ionConfig: IonConfig): Options {
           exclude: /src/,
         },
         {
-          test: /\.(png|svg|jpg|gif)$/,
+          test: /\.(png|svg|jpg|gif|jpeg)$/,
           use: [
             {
               loader: resolve('url-loader'),
@@ -189,13 +192,24 @@ export default function getWebpackConfig(ionConfig: IonConfig): Options {
               },
             },
           ],
-        }
+        },
+        {
+          test: /\.(mp3|wav)$/,
+          use: [
+            {
+              loader: resolve('url-loader'),
+              options: {
+                outputPath: join(cwdPath, 'dist/audios'),
+              },
+            },
+          ],
+        },
       ],
     },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: `main.[contenthash:${hash}].css`,
-        chunkFilename: `[id].[contenthash:${hash}].css`,
+        filename: `css/style.[contenthash:${hash}].css`,
+        chunkFilename: `css/[id].[contenthash:${hash}].css`,
       }),
       // 防止每次文件hash都改变
       new webpack.HashedModuleIdsPlugin(),
