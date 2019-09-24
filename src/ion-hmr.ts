@@ -1,59 +1,40 @@
-module.exports = function({ types: t }) {
+export default function({ types: t }) {
   return {
     visitor: {
       ImportDeclaration(path) {
         const { node } = path;
         if (
           t.isImportDefaultSpecifier(node.specifiers[0]) &&
-          node.source.value === 'react'
+          node.source.value === 'react-dom'
         ) {
           path.insertAfter(
             t.importDeclaration(
               [t.importSpecifier(t.identifier('hot'), t.identifier('hot'))],
-              t.stringLiteral('react-hot-loader')
+              t.stringLiteral('react-hot-loader/root')
             )
           );
         }
       },
-      ExportDefaultDeclaration(path) {
+      ExpressionStatement(path) {
         const { node } = path;
         if (
-          !path.container.find(
-            node => t.isImportDeclaration(node) && node.source.value === 'react'
-          ) ||
-          path.container.find(
-            node =>
-              t.isImportDeclaration(node) &&
-              node.source.value === 'react-hot-loader'
-          )
+          t.isCallExpression(node.expression) &&
+          node.expression.callee.object &&
+          node.expression.callee.object.name === 'ReactDOM'
         ) {
-          return;
-        }
-        if (
-          t.isFunctionDeclaration(node.declaration) ||
-          t.isClassDeclaration(node.declaration)
-        ) {
-          path.replaceWithMultiple([
-            node.declaration,
-            t.exportDefaultDeclaration(
-              t.callExpression(
-                t.callExpression(t.identifier('hot'), [t.identifier('module')]),
-                [node.declaration.id]
-              )
-            ),
-          ]);
-        }
-        if (t.isIdentifier(node.declaration)) {
-          path
-            .get('declaration')
-            .replaceWith(
-              t.callExpression(
-                t.callExpression(t.identifier('hot'), [t.identifier('module')]),
-                [node.declaration]
-              )
-            );
+          const name = node.expression.arguments[0].openingElement.name.name;
+          node.expression.arguments[0].openingElement.name.name = 'Hot' + name;
+          path.insertBefore(
+            t.variableDeclaration('const', [
+              t.variableDeclarator(
+                t.identifier('Hot' + name),
+                t.callExpression(t.identifier('hot'), [t.identifier(name)])
+              ),
+            ])
+          );
+          path.insertAfter(t.identifier('Hot' + name));
         }
       },
     },
   };
-};
+}

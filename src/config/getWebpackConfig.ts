@@ -94,6 +94,7 @@ export default function getWebpackConfig(ionConfig: IonConfig): Options {
       modules: ['node_modules', join(cwdPath, './node_modules')],
       extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
       alias: {
+        'react-hot-loader/root': resolve('react-hot-loader/root'),
         'react-hot-loader': resolve('react-hot-loader'),
         'react-dom': resolve('@hot-loader/react-dom'),
         ...alias,
@@ -213,7 +214,9 @@ export default function getWebpackConfig(ionConfig: IonConfig): Options {
       }),
       // 防止每次文件hash都改变
       new webpack.HashedModuleIdsPlugin(),
-      new ErrorPlugin(),
+      new ErrorPlugin({
+        clearConsole: true,
+      }),
       new WebpackBar({
         name: '🚚  Ion Tools',
       }),
